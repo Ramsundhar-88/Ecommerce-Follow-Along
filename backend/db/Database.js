@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const connectDatabase = () => {
   mongoose
     .connect(process.env.DB_URL) // No need for useNewUrlParser or useUnifiedTopology
@@ -12,6 +11,5 @@ const connectDatabase = () => {
       process.exit(1); // Exit process to avoid running with an invalid DB connection
     });
 };
-
 
 module.exports = connectDatabase;

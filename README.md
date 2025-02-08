@@ -144,3 +144,10 @@ Displays a list of products in a grid format.
 Uses a Product component to render individual product cards with an image, name, description, and price.
 The Home component maps over a predefined list of products and renders them using the Product component.
 Styled using Tailwind CSS for responsiveness and modern UI design.
+
+# Milestone 9: Creating the Product Form
+In this milestone, we focused on building a form that allows users to add products, including support for multiple product images. Key achievements include:
+
+Product Form Implementation: Designed and developed a form to capture essential product details, such as: Product Name Description Price Category Multiple Product Images (file upload support)
+Image Upload Handling: Implemented functionality to allow multiple product images to be uploaded. Ensured proper validation for image formats and file sizes.
+Data Management: Configured state management to handle form inputs efficiently. Validated user inputs before submission to ensure accurate product data.

@@ -151,3 +151,11 @@ In this milestone, we focused on building a form that allows users to add produc
 Product Form Implementation: Designed and developed a form to capture essential product details, such as: Product Name Description Price Category Multiple Product Images (file upload support)
 Image Upload Handling: Implemented functionality to allow multiple product images to be uploaded. Ensured proper validation for image formats and file sizes.
 Data Management: Configured state management to handle form inputs efficiently. Validated user inputs before submission to ensure accurate product data.
+
+# Milestone 10: Creating the Product Schema and API Endpoint
+
+In this milestone, we focused on defining the structure of product data and creating an API endpoint to store product details in MongoDB.
+
+Product Schema Definition: Defined a structured product schema using Mongoose to store product data in MongoDB. Ensured each field has proper validation to maintain data integrity: Name: Required, string Description: Required, string Price: Required, number, with validation for non-negative values Image URL(s): Required, array of strings for multiple image storage Category: Required, string CreatedAt: Automatically generated timestamp
+Endpoint Creation: Developed a POST endpoint (/api/products) to accept product details from the frontend. Implemented validation to ensure only correctly formatted data is stored in the database. Saved product information to MongoDB using Mongoose models.
+Data Validation & Integrity: Enforced strict validation to prevent invalid or incomplete product entries. Returned appropriate error messages for missing or incorrect data inputs.

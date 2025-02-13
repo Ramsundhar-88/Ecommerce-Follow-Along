@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 
-
 const CreateProduct = () => {
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
@@ -15,7 +14,6 @@ const CreateProduct = () => {
     const [stock, setStock] = useState("");
     const [email, setEmail] = useState("");
 
-
     const categoriesData = [
         { title: "Electronics" },
         { title: "Fashion" },
@@ -23,22 +21,18 @@ const CreateProduct = () => {
         { title: "Home Appliances" },
     ];
 
-
     const handleImagesChange = (e) => {
         const files = Array.from(e.target.files);
 
-
         setImages((prevImages) => prevImages.concat(files));
-
 
         const imagePreviews = files.map((file) => URL.createObjectURL(file));
         setPreviewImages((prevPreviews) => prevPreviews.concat(imagePreviews));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log("Hi")
 
         const formData = new FormData();
         formData.append("name", name);
@@ -49,11 +43,9 @@ const CreateProduct = () => {
         formData.append("stock", stock);
         formData.append("email", email);
 
-
         images.forEach((image) => {
             formData.append("images", image);
         });
-
 
         try {
             const response = await axios.post("http://localhost:8000/api/v2/product/create-product", formData, {
@@ -62,10 +54,10 @@ const CreateProduct = () => {
                 },
             });
 
-
             if (response.status === 201) {
                 alert("Product created successfully!");
                 setImages([]);
+                setPreviewImages([]);
                 setName("");
                 setDescription("");
                 setCategory("");
@@ -79,8 +71,6 @@ const CreateProduct = () => {
             alert("Failed to create product. Please check the data and try again.");
         }
     };
-
-
 
 
     return (
@@ -157,7 +147,8 @@ const CreateProduct = () => {
                 <div className="mt-4">
                     <label className="pb-1 block">
                         Price <span className="text-red-500">*</span>
-                    </label> <input
+                    </label>
+                    <input
                         type="number"
                         value={price}
                         className="w-full p-2 border rounded"
@@ -217,7 +208,4 @@ const CreateProduct = () => {
     );
 };
 
-
 export default CreateProduct;
-
-

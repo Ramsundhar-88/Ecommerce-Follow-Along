@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -49,10 +50,12 @@ const Signup = () => {
     };
 //axios request
     axios.post("http://localhost:8000/api/v2/user/create-user", newForm, config).then((res)=>{
-      console.log(res.data);
+      console.log("resul",res.data);
     }).catch((err)=>{
-      console.log(err);
+      console.log("error",err.message);
     })
+
+    
 };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

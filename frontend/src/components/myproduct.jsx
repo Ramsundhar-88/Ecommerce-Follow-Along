@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 function Myproduct({ _id, name, images, description, price }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
+
 
     useEffect(() => {
         if (!images || images.length === 0) return;
@@ -15,11 +17,14 @@ function Myproduct({ _id, name, images, description, price }) {
         return () => clearInterval(interval);
     }, [images]);
 
+
     const currentImage = images && images.length > 0 ? images[currentIndex] : null;
+
 
     const handleEdit = () => {
         navigate(`/create-product/${_id}`);
     };
+
 
     return (
         <div className="bg-neutral-200 p-4 rounded-lg shadow-md flex flex-col justify-between">
@@ -46,5 +51,6 @@ function Myproduct({ _id, name, images, description, price }) {
         </div>
     );
 }
+
 
 export default Myproduct;

@@ -132,11 +132,13 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
     const { id } = req.params;
     const { name, description, category, tags, price, stock, email } = req.body;
 
+
     try {
         const existingProduct = await Product.findById(id);
         if (!existingProduct) {
             return res.status(404).json({ error: 'Product not found.' });
         }
+
 
         let updatedImages = existingProduct.images;
         if (req.files && req.files.length > 0) {
@@ -144,6 +146,7 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
                 return `/products/${path.basename(file.path)}`;
             });
         }
+
 
         const validationErrors = validateProductData({
             name,
@@ -154,9 +157,11 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
             email,
         });
 
+
         if (validationErrors.length > 0) {
             return res.status(400).json({ errors: validationErrors });
         }
+
 
         existingProduct.name = name;
         existingProduct.description = description;
@@ -167,7 +172,9 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
         existingProduct.email = email;
         existingProduct.images = updatedImages;
 
+
         await existingProduct.save();
+
 
         res.status(200).json({
             message: '✅ Product updated successfully',
@@ -178,6 +185,7 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
         res.status(500).json({ error: 'Server error. Could not update product.' });
     }
 });
+
 
 
 module.exports = router;

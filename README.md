@@ -235,3 +235,11 @@ Frontend Updates: Address Form Page Designed an address input form to collect: C
 
 Navigation & User Flow Clicking "Add Address" on the Profile Page redirects to the Address Form. Implemented smooth navigation handling to improve user experience.
 Future Enhancements & Experimentation Save Address to Database: Store the address using a backend API. Auto-fill Option: Enable users to update an existing address instead of entering a new one. Google Maps API Integration: Allow users to select their address using a map.
+
+# Milestone 22: Storing User Address in Database
+
+Created a backend endpoint to receive and store user address data. Update the User collection to include an address array. Learn how to store and manage multiple addresses for a user.
+
+Backend Updates: Address Storage Endpoint Created a POST endpoint (/api/user/address) to receive address data from the frontend. Validated the received address data before storing it in the database. Updated the User model to include an address array for storing multiple addresses. Implemented error handling to ensure data integrity.
+
+Frontend Integration Modified the Address Form to send a POST request to the new backend endpoint. Ensured proper state management to handle form input. Provided user feedback (e.g., success message) upon successful address submission.

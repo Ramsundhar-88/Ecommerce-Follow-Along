@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const NavBar = () => {
+const Nav = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -206,4 +206,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default Nav;

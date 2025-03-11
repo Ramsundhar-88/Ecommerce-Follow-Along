@@ -1,5 +1,5 @@
 import CartProduct from '../components/cartproduct'
-import NavBar from '../components/nav';
+import Nav from '../components/nav';
 import { useState, useEffect } from 'react';
 
 const Cart = () => {
@@ -27,7 +27,7 @@ const Cart = () => {
 
     return (
         <div className='w-full h-screen'>
-            <NavBar />
+            <Nav />
             <div className='w-full h-full justify-center items-center flex'>
                 <div className='w-full md:w-4/5 lg:w-4/6 2xl:w-2/3 h-full border-l border-r border-neutral-300 flex flex-col'>
                     <div className='w-full h-16  flex items-center justify-center'>

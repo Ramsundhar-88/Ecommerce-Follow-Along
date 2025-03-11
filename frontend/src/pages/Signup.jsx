@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
 import ValidationFormObject from "../../validation";
-import NavBar from "../components/nav";
+import Nav from "../components/nav";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -58,7 +58,7 @@ const Signup = () => {
 };
   return (
     <>
-    <NavBar/>
+    <Nav/>
     
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

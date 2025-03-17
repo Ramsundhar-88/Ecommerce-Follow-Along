@@ -253,7 +253,7 @@ Frontend Updates: Cart Page & Address Selection Added a "Place Order" button ins
 
 Backend Updates: Order Schema & Storage Created a Mongoose schema to store order details, including: User ID (to associate orders with users) Product details (items in the cart) Selected delivery address Order status (pending, shipped, delivered) Total price Timestamp Implemented an endpoint to store orders in the database.
 
-# # Milestone: Order Confirmation & Placement  
+#  Milestone 2425: Order Confirmation & Placement  
 
 ### Learning Goals 🎯  
 By the end of this milestone, you will:  
@@ -270,3 +270,16 @@ By the end of this milestone, you will:
 ✅ Fetches user addresses and cart items via API.  
 ✅ Sends order details (email, address, cart items) to the backend.  
 ✅ Handles loading and error states for a smooth experience.
+
+# Milestone 25: Order Placement & Address Selection
+
+Learning Goals 🎯
+
+Add a "Place Order" button to the cart page.
+Create an address selection page.
+Store order details using Mongoose.
+
+Backend Updates 🛠️
+User ID, product details, address.
+Order status, total price, timestamp.
+API endpoint to store orders.

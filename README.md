@@ -350,3 +350,20 @@ Key Highlights:
 PayPal Integration: Configured a sandbox account, installed react-paypal-js, and implemented PayPal's API for secure transactions.
 Navigation Component: Built a responsive Nav component with React Router for smooth navigation across key pages (Home, My Products, Add Product, Cart).
 Responsive Design: Used CSS Flexbox and media queries to ensure adaptability across all screen sizes, with a hamburger menu for mobile users.
+
+# Milestone 31: Redux Global State Management
+
+In this milestone, we set up Redux Toolkit to manage user email across the application.
+
+📌 Key Highlights:
+🔹 Redux Store Setup
+Installed @reduxjs/toolkit and react-redux.
+Created a store/ folder with store.js and userActions.js.
+
+🔹 Managing User Email
+Configured Redux store with a reducer to store user email.
+Created an action setEmail to update the email state.
+
+🔹 Connecting Redux to App
+
+Wrapped App with Provider in index.js to access global state.

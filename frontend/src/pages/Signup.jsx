@@ -1,17 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import styles from "../styles/styles";
 import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
-import axios from "axios";
-import ValidationFormObject from "../../validation";
-import Nav from "../components/nav";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setemail } from "../store/userActions";
+
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
-  const [errors, setErrors] = useState({});
+
   const handleFileSubmit = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -20,22 +23,12 @@ const Signup = () => {
       setAvatar(file);
     }
   };
-  const validateFields = () => {
-    const nameError = ValidationFormObject.validteName(name);
-    const emailError = ValidationFormObject.validteEmail(email);
-    const passwordError = ValidationFormObject.validtePass(password);
-    const newErrors = {};
-    if (nameError !== true) newErrors.name = nameError;
-    if (emailError !== true) newErrors.email = emailError;
-    if (passwordError !== true) newErrors.password = passwordError;
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
-  };
+   const dispatch = useDispatch();
+   dispatch(setemail(email));
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateFields()) {
-      return; // Stop submission if validation fails
-    }
+
     const newForm = new FormData();
     newForm.append("file", avatar);
     newForm.append("name", name);
@@ -47,19 +40,16 @@ const Signup = () => {
         "Accept": "any",
       },
     };
-//axios request
-    axios.post("http://localhost:8000/api/v2/user/create-user", newForm, config).then((res)=>{
-      console.log("resul",res.data);
-    }).catch((err)=>{
-      console.log("error",err.message);
-    })
 
-    
-};
+    axios.post("http://localhost:8000/api/v2/user/create-user", newForm, config)
+    .then((res) => {
+      console.log(res.data);
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
   return (
-    <>
-    <Nav/>
-    
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -73,7 +63,7 @@ const Signup = () => {
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
-                >
+              >
                 Full Name
               </label>
               <div className="mt-1">
@@ -81,22 +71,19 @@ const Signup = () => {
                   type="text"
                   name="name"
                   autoComplete="name"
+                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`appearance-none block w-full px-3 py-2 border ${
-                    errors.name ? "border-red-500" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
-                  />
-                {errors.name && (
-                  <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-                )}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
-                >
+              >
                 Email address
               </label>
               <div className="mt-1">
@@ -104,17 +91,14 @@ const Signup = () => {
                   type="email"
                   name="email"
                   autoComplete="email"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`appearance-none block w-full px-3 py-2 border ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
-                  />
-                {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-                )}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="password"
@@ -127,16 +111,15 @@ const Signup = () => {
                   type={visible ? "text" : "password"}
                   name="password"
                   autoComplete="current-password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`appearance-none block w-full px-3 py-2 border ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
-                  />
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
                 {visible ? (
                   <AiOutlineEye
-                  className="absolute right-2 top-2 cursor-pointer"
-                  size={25}
+                    className="absolute right-2 top-2 cursor-pointer"
+                    size={25}
                     onClick={() => setVisible(false)}
                   />
                 ) : (
@@ -146,23 +129,21 @@ const Signup = () => {
                     onClick={() => setVisible(true)}
                   />
                 )}
-                {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-                )}
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="avatar"
                 className="block text-sm font-medium text-gray-700"
-                ></label>
+              ></label>
               <div className="mt-2 flex items-center">
                 <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
                   {avatar ? (
                     <img
-                    src={URL.createObjectURL(avatar)}
-                    alt="avatar"
-                    className="h-full w-full object-cover rounded-full"
+                      src={URL.createObjectURL(avatar)}
+                      alt="avatar"
+                      className="h-full w-full object-cover rounded-full"
                     />
                   ) : (
                     <RxAvatar className="h-8 w-8" />
@@ -180,19 +161,20 @@ const Signup = () => {
                     accept=".jpg,.jpeg,.png"
                     onChange={handleFileSubmit}
                     className="sr-only"
-                    />
+                  />
                 </label>
               </div>
             </div>
+
             <div>
               <button
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                >
+              >
                 Submit
               </button>
             </div>
-            <div className="flex items-center w-full">
+            <div className={`${styles.noramlFlex} w-full`}>
               <h4>Already have an account?</h4>
               <Link to="/login" className="text-blue-600 pl-2">
                 Sign In
@@ -202,7 +184,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
+
 export default Signup;

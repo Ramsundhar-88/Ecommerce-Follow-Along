@@ -1,10 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Nav from "../components/nav"
+import Nav from "../components/nav";
+import { useSelector } from "react-redux"; // Import useSelector
 
 const CreateAddress = () => {
     const navigate = useNavigate();
+
+    // Get email from Redux state
+    const email = useSelector((state) => state.user.email);
 
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
@@ -22,7 +27,7 @@ const CreateAddress = () => {
             address2,
             zipCode,
             addressType,
-            email: "ramsundhar.sades@gmail.com"
+            email // Use the email from Redux
         };
 
         try {

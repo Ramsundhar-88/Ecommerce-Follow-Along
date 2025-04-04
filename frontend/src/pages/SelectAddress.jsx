@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Nav from '../components/nav'; // Ensure correct casing
+import Nav from '../components/nav';
 import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux'; // Import useSelector
 
 const SelectAddress = () => {
     const [addresses, setAddresses] = useState([]);
@@ -10,19 +11,17 @@ const SelectAddress = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-
-
-
-    const userEmail = 'ramsundhar.sades@gmail.com';
-
+    // Retrieve email from Redux state
+    const userEmail = useSelector((state) => state.user.email);
 
     useEffect(() => {
+        // Only fetch addresses if email exists
+        if (!userEmail) return;
         const fetchAddresses = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/v2/user/addresses', {
                     params: { email: userEmail },
                 });
-
 
                 if (response.status !== 200) {
                     if (response.status === 404) {
@@ -34,9 +33,7 @@ const SelectAddress = () => {
                     }
                 }
 
-
                 const data = response.data;
-
 
                 if (data && Array.isArray(data.addresses)) {
                     setAddresses(data.addresses);
@@ -52,18 +49,14 @@ const SelectAddress = () => {
             }
         };
 
-
         fetchAddresses();
     }, [userEmail]);
-
 
     const handleSelectAddress = (addressId) => {
         // Navigate to Order Confirmation with the selected address ID and email
         navigate('/order-confirmation', { state: { addressId, email: userEmail } });
     };
 
-
-    // Render loading state
     if (loading) {
         return (
             <div className='w-full h-screen flex justify-center items-center'>
@@ -72,8 +65,6 @@ const SelectAddress = () => {
         );
     }
 
-
-    // Render error state
     if (error) {
         return (
             <div className='w-full h-screen flex flex-col justify-center items-center'>
@@ -87,7 +78,6 @@ const SelectAddress = () => {
             </div>
         );
     }
-
 
     return (
         <div className='w-full min-h-screen flex flex-col'>
@@ -104,7 +94,8 @@ const SelectAddress = () => {
                                 >
                                     <div>
                                         <p className='font-medium'>
-                                            {address.address1}{address.address2 ? `, ${address.address2}` : ''}, {address.city}, {address.state}, {address.zipCode}
+                                            {address.address1}
+                                            {address.address2 ? `, ${address.address2}` : ''}, {address.city}, {address.state}, {address.zipCode}
                                         </p>
                                         <p className='text-sm text-gray-600'>{address.country}</p>
                                         <p className='text-sm text-gray-500'>Type: {address.addressType || 'N/A'}</p>
@@ -126,6 +117,5 @@ const SelectAddress = () => {
         </div>
     );
 };
-
 
 export default SelectAddress;

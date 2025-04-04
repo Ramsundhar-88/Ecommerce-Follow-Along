@@ -367,3 +367,58 @@ Created an action setEmail to update the email state.
 🔹 Connecting Redux to App
 
 Wrapped App with Provider in index.js to access global state.
+
+
+Absolutely! Here's an even simpler version:
+
+
+# ✅ Milestone 32: Redux Global State Management
+
+We used Redux Toolkit to manage the user's email across the app.
+
+📌 What we did:
+
+🔹 Setup
+- Installed: @reduxjs/toolkit, react-redux
+- Made "store" folder with:
+  - store.jsx (for the Redux store)
+  - userActions.jsx (for setting email)
+
+🔹 Email State
+- Added email to global state
+- Created action: setemail(email)
+
+🔹 Connect to App
+- Wrapped <App /> with <Provider> to use Redux
+
+🔹 How to use
+- Get email: useSelector(state => state.user.email)
+- Set email: dispatch(setemail(email))
+
+
+# ✅ Milestone 33: User Login API (Backend)
+
+We created a login endpoint that checks user credentials and sends back a JWT token in a cookie.
+
+📌 What it does:
+
+🔹 Login Route
+- POST /login
+- Takes email and password from request
+
+🔹 Checks
+- If email or password is missing → return error
+- Finds user in database using email
+- Compares password using bcrypt
+
+🔹 If password matches
+- Creates a JWT token with user ID and email
+- Sends token in a secure, HttpOnly cookie (1 hour expiry)
+- Removes password from user object
+- Sends back success response with user info
+
+🔹 Security
+- Cookie is:
+  - HttpOnly (can’t be accessed via JavaScript)
+  - Secure (only in production)
+  - SameSite: Strict

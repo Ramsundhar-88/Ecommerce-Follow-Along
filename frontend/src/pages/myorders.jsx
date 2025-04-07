@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Nav from '../components/nav';
 import { useSelector } from 'react-redux'; // Import useSelector
 
@@ -18,7 +18,7 @@ const MyOrdersPage = () => {
         try {
             setLoading(true);
             setError('');
-            const response = await axios.get('http://localhost:8000/api/v2/orders/myorders', {
+            const response = await axios.get('/api/v2/orders/myorders', {
                 params: { email },
             });
             setOrders(response.data.orders);

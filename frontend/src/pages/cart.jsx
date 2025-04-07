@@ -4,6 +4,7 @@ import CartProduct from '../components/cartproduct';
 import Nav from '../components/nav';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // Import useSelector
+import axios from '../axiosConfig';
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -12,30 +13,24 @@ const Cart = () => {
   // Get the email from Redux state
   const email = useSelector((state) => state.user.email);
 
-  useEffect(() => {
-    // Only fetch if email is available
-    if (!email) return;
-
-    fetch(`http://localhost:8000/api/v2/product/cartproducts?email=${email}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setProducts(
-          data.cart.map(product => ({
-            quantity: product['quantity'],
-            ...product['productId']
-          }))
-        );
-        console.log("Products fetched:", data.cart);
-      })
-      .catch((err) => {
-        console.error("Error fetching products:", err);
-      });
-  }, [email]);
+  
+  useEffect(() => {   
+   if (!email) return;
+      // Use axios with credentials
+      axios.get(`/api/v2/product/cartproducts?email=${email}`)
+        .then((res) => {
+          setProducts(
+            res.data.cart.map(product => ({
+              quantity: product.quantity,
+              ...product.productId,
+            }))
+          );
+        })
+        .catch((err) => {
+          console.error("Error fetching products:", err);
+        });
+    }, [email]);
+  
 
   const handlePlaceOrder = () => {
     navigate('/select-address'); // Navigate to the Select Address page

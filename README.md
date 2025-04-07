@@ -422,3 +422,35 @@ We created a login endpoint that checks user credentials and sends back a JWT to
   - HttpOnly (can’t be accessed via JavaScript)
   - Secure (only in production)
   - SameSite: Strict
+
+
+✅ Milestone 34: JWT Auth + Axios Setup
+We secured the backend and made frontend API calls easier.
+
+📌 What we did:
+
+🔹 Backend
+
+Added isAuthenticatedUser middleware
+
+Protects routes by checking token from cookies
+
+Used in orders, products (except get-products), and user routes
+
+🔹 Frontend
+
+Created axios.config.jsx with baseURL and withCredentials: true
+
+Replaced all axios imports with this config in important pages
+
+🔹 Public Access
+
+Removed auth from /get-products so anyone can see products
+
+🔹 Result
+
+Protected routes need login
+
+Frontend sends cookies automatically
+
+Product listing works without login

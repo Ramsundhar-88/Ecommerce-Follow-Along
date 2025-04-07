@@ -4,7 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../styles/styles";
 import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useDispatch } from 'react-redux';
 import { setemail } from "../store/userActions";
 

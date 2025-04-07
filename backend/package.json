@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "Ramsundhar",
@@ -24,6 +24,5 @@
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9"
   },
-  "devDependencies": {},
   "description": ""
 }

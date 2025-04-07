@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from "react";
 import Product from "../components/product";
 import Nav from "../components/nav";
+import axios from "../axiosConfig";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -13,20 +14,16 @@ export default function Home() {
   const [error, setError] = useState(null); // For error handling
 
 
+
   useEffect(() => {
-    fetch("http://localhost:8000/api/v2/product/get-products")
+    axios
+      .get("/api/v2/product/get-products")
       .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setProducts(data.products);
+        setProducts(res.data.products);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("❌ Error fetching products:", err);
+        console.error("Error fetching products:", err);
         setError(err.message);
         setLoading(false);
       });

@@ -8,6 +8,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
+const {isAuthenticatedUser} = require('../middleware/auth')
 require("dotenv").config();
 
 
@@ -88,23 +89,23 @@ router.post("/create-user", upload.single("file"), catchAsyncErrors(async (req, 
     }
     const isPasswordMatched = await bcrypt.compare(password, user.password, function(err, result) {
         // result == true
-        // if(err){
-        //     console.log("error in password",err)
-        //     return next(new ErrorHandler("Invalid Email or Password", 401));
-        // }
-        // const token = jwt.sign(
-        //     { id: user._id, email: user.email },
-        //     process.env.JWT_SECRET || "your_jwt_secret",
-        //     { expiresIn: "1h" }
-        // );
+        if(err){
+            console.log("error in password",err)
+            return next(new ErrorHandler("Invalid Email or Password", 401));
+        }
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET || "your_jwt_secret",
+            { expiresIn: "1h" }
+        );
    
-        // // Set token in an HttpOnly cookie
-        // res.cookie("token", token, {
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === "production", // use true in production
-        //     sameSite: "Strict",
-        //     maxAge: 3600000, // 1 hour
-        // });
+        // Set token in an HttpOnly cookie
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", // use true in production
+            sameSite: "Strict",
+            maxAge: 3600000, // 1 hour
+        });
         user.password = undefined; // Remove password from response
         res.status(200).json({
             success: true,
@@ -127,9 +128,10 @@ router.post("/create-user", upload.single("file"), catchAsyncErrors(async (req, 
 
 
 
-router.get("/profile", catchAsyncErrors(async (req, res, next) => {
+router.get("/profile",isAuthenticatedUser, catchAsyncErrors(async (req, res, next) => {
     const { email } = req.query;
     console.log(req.query.email)
+    console.log("emailsdd")
     if (!email) {
         return next(new ErrorHandler("Please provide an email", 400));
     }
@@ -148,7 +150,7 @@ router.get("/profile", catchAsyncErrors(async (req, res, next) => {
         addresses: user.addresses,
     });
     
-    router.post("/add-address", catchAsyncErrors(async (req, res, next) => {
+    router.post("/add-address", isAuthenticatedUser,catchAsyncErrors(async (req, res, next) => {
         const { country, city, address1, address2, zipCode, addressType, email } = req.body;
     
         const user = await User.findOne({ email });
@@ -175,7 +177,7 @@ router.get("/profile", catchAsyncErrors(async (req, res, next) => {
         });
     }));
 
-router.get("/addresses", catchAsyncErrors(async (req, res, next) => {
+router.get("/addresses",isAuthenticatedUser, catchAsyncErrors(async (req, res, next) => {
     const { email } = req.query;
     if (!email) {
         return next(new ErrorHandler("Please provide an email", 400));

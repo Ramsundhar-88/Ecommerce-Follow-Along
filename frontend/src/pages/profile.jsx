@@ -5,11 +5,10 @@ import { useNavigate } from "react-router-dom";
 import AddressCard from "../components/addresscard";
 import Nav from "../components/nav";
 import { useSelector } from "react-redux"; // Import useSelector
-
+import axios from '../axiosConfig';
 export default function Profile() {
 	// Retrieve email from Redux state
 	const email = useSelector((state) => state.user.email);
-	console.log("email",useSelector((state) => state.user.email))
 
 	const [personalDetails, setPersonalDetails] = useState({
 		name: "",
@@ -21,28 +20,20 @@ export default function Profile() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		// Only fetch profile if email exists
-		if (!email) return;
-		fetch(`http://localhost:8000/api/v2/user/profile?email=${email}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => {
-				if (!res.ok) {
-					throw new Error(`HTTP error! status: ${res.status}`);
-				}
-				return res.json();
-			})
-			.then((data) => {
-				setPersonalDetails(data.user);
-				setAddresses(data.addresses);
-				console.log("User fetched:", data.user);
-				console.log("Addresses fetched:", data.addresses);
-			})
-			.catch((err) => console.error(err));
-	}, [email]);
+        if (!email) return;
+		console.log(email)
+        axios
+            .get("/api/v2/user/profile", { params: { email } })
+            .then((res) => {
+                setPersonalDetails(res.data.user);
+                setAddresses(res.data.addresses);
+                console.log("User fetched:", res.data.user);
+                console.log("Addresses fetched:", res.data.addresses);
+            })
+            .catch((err) => console.error("error getting profile",err));
+    }, [email]);
+
+
 
 	const handleAddAddress = () => {
 		navigate("/create-address");

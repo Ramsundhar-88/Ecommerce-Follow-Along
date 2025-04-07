@@ -7,6 +7,7 @@ const User = require('../model/user');
 const router = express.Router();
 const { pupload } = require("../multer");
 const path = require('path');
+const {isAuthenticatedUser} = require('../middleware/auth')
 
 
 // Validation function
@@ -27,7 +28,7 @@ const validateProductData = (data) => {
 
 
 // Route: Create a new product
-router.post('/create-product', pupload.array('images', 10), async (req, res) => {
+router.post('/create-product', pupload.array('images', 10),isAuthenticatedUser,( async (req, res) => {
     console.log("🛒 Creating product");
     const { name, description, category, tags, price, stock, email } = req.body;
 
@@ -82,10 +83,10 @@ console.log("newProduct: ", newProduct)
         console.error(' Server error:', err);
         res.status(500).json({ error: 'Server error. Could not create product.' });
     }
-});
+}));
 
 
-router.get('/get-products', async (req, res) => {
+router.get('/get-products',( async (req, res) => {
     try {
         const products = await Product.find();
         const productsWithFullImageUrl = products.map(product => {
@@ -102,10 +103,10 @@ router.get('/get-products', async (req, res) => {
         console.error(' Server error:', err);
         res.status(500).json({ error: 'Server error. Could not fetch products.' });
     }
-});
+}));
 
 
-router.get('/my-products', async (req, res) => {
+router.get('/my-products',isAuthenticatedUser,( async (req, res) => {
     const { email } = req.query;
     console.log(email)
     try {
@@ -124,12 +125,12 @@ router.get('/my-products', async (req, res) => {
         res.status(500).json({ error: 'Server error. Could not fetch products.' });
     }
 }
-);
+));
 
 
 
 
-router.get('/product/:id', async (req, res) => {
+router.get('/product/:id',isAuthenticatedUser,( async (req, res) => {
     const { id } = req.params;
     try {
         const product = await Product.findById(id);
@@ -141,10 +142,10 @@ router.get('/product/:id', async (req, res) => {
         console.error('Server error:', err);
         res.status(500).json({ error: 'Server error. Could not fetch product.' });
     }
-});
+}));
 
 
-router.put('/update-product/:id', pupload.array('images', 10), async (req, res) => {
+router.put('/update-product/:id', pupload.array('images', 10),isAuthenticatedUser,( async (req, res) => {
     const { id } = req.params;
     const { name, description, category, tags, price, stock, email } = req.body;
 
@@ -200,8 +201,8 @@ router.put('/update-product/:id', pupload.array('images', 10), async (req, res) 
         console.error('Server error:', err);
         res.status(500).json({ error: 'Server error. Could not update product.' });
     }
-});
-router.delete('/delete-product/:id', async (req, res) => {
+}));
+router.delete('/delete-product/:id',isAuthenticatedUser, (async (req, res) => {
     const { id } = req.params;
     try {
         const existingProduct = await Product.findById(id);
@@ -214,11 +215,11 @@ router.delete('/delete-product/:id', async (req, res) => {
         console.error('Server error:', err);
         res.status(500).json({ error: 'Server error. Could not delete product.' });
     }
-});
+}));
 
 // cart
 
-router.post('/cart', async (req, res) => {
+router.post('/cart',isAuthenticatedUser,( async (req, res) => {
     try {
         const { userId, productId, quantity } = req.body;
         const email = userId;
@@ -264,10 +265,10 @@ router.post('/cart', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Server Error' });
     }
-}); 
+})); 
 
 // GET cart details endpoint
-router.get('/cartproducts', async (req, res) => {
+router.get('/cartproducts',isAuthenticatedUser,( async (req, res) => {
     try {
         const { email } = req.query;
         if (!email) {
@@ -288,9 +289,9 @@ router.get('/cartproducts', async (req, res) => {
         console.error('Server error:', err);
         res.status(500).json({ error: 'Server Error' });
     }
-});
+}));
 
-router.put('/cartproduct/quantity', async (req, res) => {
+router.put('/cartproduct/quantity',isAuthenticatedUser,( async (req, res) => {
     const { email, productId, quantity } = req.body;
     // console.log("Updating cart product quantity");
 
@@ -320,5 +321,5 @@ router.put('/cartproduct/quantity', async (req, res) => {
         console.error('Server error:', err);
         res.status(500).json({ error: 'Server Error' });
     }
-});
+}));
 module.exports = router;

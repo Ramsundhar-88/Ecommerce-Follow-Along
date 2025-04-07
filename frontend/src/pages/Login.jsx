@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../styles/styles";
-import axios from "axios";
+import axios from '../axiosConfig';
 import { useDispatch } from "react-redux";
 import { setemail } from "../store/userActions";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -17,10 +17,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/v2/user/login", { email, password });
+      const response = await axios.post("/api/v2/user/login", { email, password });
       console.log(response.data);
       // Dispatch action to store email in Redux state
       dispatch(setemail(email));
+      console.log(email)
       // Redirect to profile page after successful login
       navigate("/");
     } catch (error) {

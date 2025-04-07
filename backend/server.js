@@ -1,5 +1,6 @@
 const app = require("./app");
 const connectDatabase = require("./db/Database");
+const cors = require('cors')
 
 // Handling uncaught Exception when setting up backend server
 process.on("uncaughtException", (err) => {
@@ -13,6 +14,13 @@ if (process.env.DB_URL  !== "PRODUCTION") {
     path: "config/.env",
   });
 }
+
+app.use(cors({
+  origin: "http://localhost:5173", // Update this if your frontend is hosted elsewhere
+  credentials: true, // Enable if you need to send cookies or authentication headers
+}));
+
+
 
 // connect db
 connectDatabase();
